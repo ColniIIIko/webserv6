@@ -53,6 +53,7 @@ func HandleCallback(w http.ResponseWriter, r *http.Request) {
 	code := r.URL.Query().Get("code")
 	token, err := oauthConfig.Exchange(context.Background(), code)
 	if err != nil {
+		fmt.Println(err)
 		http.Error(w, "Could not get token", http.StatusBadRequest)
 		return
 	}
@@ -60,6 +61,7 @@ func HandleCallback(w http.ResponseWriter, r *http.Request) {
 	client := oauthConfig.Client(context.Background(), token)
 	userInfoResponse, err := client.Get("https://api.github.com/user")
 	if err != nil {
+		fmt.Println(err)
 		http.Error(w, "Could not get user info", http.StatusBadRequest)
 		return
 	}

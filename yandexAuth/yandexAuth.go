@@ -3,6 +3,7 @@ package yandexauth
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"lab/db"
 	"lab/session"
 	"net/http"
@@ -51,6 +52,7 @@ func HandleCallback(w http.ResponseWriter, r *http.Request) {
 	code := r.URL.Query().Get("code")
 	token, err := oauthConfig.Exchange(context.Background(), code)
 	if err != nil {
+		fmt.Println(err)
 		http.Error(w, "Could not get token", http.StatusBadRequest)
 		return
 	}
@@ -58,6 +60,7 @@ func HandleCallback(w http.ResponseWriter, r *http.Request) {
 	client := oauthConfig.Client(context.Background(), token)
 	userInfoResponse, err := client.Get("https://login.yandex.ru/info?format=json&oauth_token=" + token.AccessToken)
 	if err != nil {
+		fmt.Println(err)
 		http.Error(w, "Could not get user info", http.StatusBadRequest)
 		return
 	}
@@ -67,6 +70,7 @@ func HandleCallback(w http.ResponseWriter, r *http.Request) {
 	if userInfoResponse.StatusCode == http.StatusOK {
 		var user User
 		if err := json.NewDecoder(userInfoResponse.Body).Decode(&user); err != nil {
+			fmt.Println(err)
 			http.Error(w, "Could not parse user info", http.StatusBadRequest)
 			return
 		}
