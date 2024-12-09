@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/joho/godotenv"
 
@@ -50,6 +51,8 @@ func main() {
 	http.HandleFunc("/yandex/callback", yandexauth.HandleCallback)
 	http.HandleFunc("/logout", handleLogout)
 
-	fmt.Println("Server started at http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	var PORT = os.Getenv("PORT")
+
+	fmt.Printf("Server started at port :%s\n", PORT)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", PORT), nil))
 }
