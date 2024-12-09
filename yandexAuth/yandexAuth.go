@@ -6,6 +6,7 @@ import (
 	"lab/db"
 	"lab/session"
 	"net/http"
+	"os"
 
 	"github.com/google/uuid"
 	"golang.org/x/oauth2"
@@ -13,10 +14,16 @@ import (
 )
 
 var (
+	clientID     = os.Getenv("YANDEX_CLIENT_ID")
+	clientSecret = os.Getenv("YANDEX_CLIENT_SECRET")
+	redirectURL  = os.Getenv("YANDEX_REDIRECT_URL")
+)
+
+var (
 	oauthConfig = &oauth2.Config{
-		ClientID:     "d97bcc05d418408d83a097e707a3f7a5",
-		ClientSecret: "3b490899475e4461ab83256d554d993a",
-		RedirectURL:  "http://localhost:8080/yandex/callback",
+		ClientID:     clientID,
+		ClientSecret: clientSecret,
+		RedirectURL:  redirectURL,
 		Scopes:       []string{"login:info"},
 		Endpoint:     yandex.Endpoint,
 	}

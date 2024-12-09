@@ -6,6 +6,7 @@ import (
 	"lab/db"
 	"lab/session"
 	"net/http"
+	"os"
 
 	"github.com/google/uuid"
 	"golang.org/x/oauth2"
@@ -13,10 +14,16 @@ import (
 )
 
 var (
+	clientID     = os.Getenv("GOOGLE_CLIENT_ID")
+	clientSecret = os.Getenv("GOOGLE_CLIENT_SECRET")
+	redirectURL  = os.Getenv("GOOGLE_REDIRECT_URL")
+)
+
+var (
 	oauthConfig = &oauth2.Config{
-		ClientID:     "336825104577-gk6614uv2ek46b5jib6j4767smog5lr9.apps.googleusercontent.com",
-		ClientSecret: "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",
-		RedirectURL:  "http://localhost:8080/google/callback",
+		ClientID:     clientID,
+		ClientSecret: clientSecret,
+		RedirectURL:  redirectURL,
 		Scopes: []string{
 			"https://www.googleapis.com/auth/userinfo.email",
 			"https://www.googleapis.com/auth/userinfo.profile",

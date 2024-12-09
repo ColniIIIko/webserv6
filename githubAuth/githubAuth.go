@@ -7,6 +7,7 @@ import (
 	"lab/db"
 	"lab/session"
 	"net/http"
+	"os"
 
 	"github.com/google/uuid"
 	"golang.org/x/oauth2"
@@ -22,10 +23,16 @@ type User struct {
 }
 
 var (
+	clientID     = os.Getenv("GITHUB_CLIENT_ID")
+	clientSecret = os.Getenv("GITHUB_CLIENT_SECRET")
+	redirectURL  = os.Getenv("GITHUB_REDIRECT_URL")
+)
+
+var (
 	oauthConfig = &oauth2.Config{
-		ClientID:     "Ov23liNQPeg9MiStGeZG",
-		ClientSecret: "e69cb15a3ec3b48ca8b2f4e5c41807f11f28a60d",
-		RedirectURL:  "http://localhost:8080/github/callback",
+		ClientID:     clientID,
+		ClientSecret: clientSecret,
+		RedirectURL:  redirectURL,
 		Scopes:       []string{"user:email"},
 		Endpoint:     github.Endpoint,
 	}
