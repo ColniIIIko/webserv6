@@ -1,0 +1,36 @@
+name: Test and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: '1.22.4'
+
+    - name: Install dependencies
+      run: go mod download
+
+    - name: Run tests
+      run: go test ./...
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+    - name: Deploy to Render
+      env:
+        RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+      run: |
+        curl -X POST $RENDER_DEPLOY_HOOK
