@@ -42,6 +42,8 @@ func main() {
 		fmt.Println("Error loading .env file")
 	}
 
+	db.Init()
+
 	http.HandleFunc("/", handleHome)
 	http.HandleFunc("/google/login", googleauth.HandleLogin)
 	http.HandleFunc("/google/callback", googleauth.HandleCallback)
