@@ -19,7 +19,7 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 	user, err := session.GetSession(r)
 
 	if err != nil {
-		fmt.Fprint(w, `<html><body><h1>You are not logged in!</h1></body></html>`)
+		fmt.Fprint(w, `<html><body><h1>You are not logged in!!!!!!!!!!!!!!!!!!1</h1></body></html>`)
 		return
 	}
 
